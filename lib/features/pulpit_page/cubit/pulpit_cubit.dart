@@ -1,13 +1,13 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
+
 import 'dart:math';
 part 'pulpit_state.dart';
 
 class PulpitCubit extends Cubit<PulpitState> {
   PulpitCubit()
-      : super(PulpitState(
+      : super(const PulpitState(
             inkColor: Colors.amber,
             isLoading: false,
             errorMessage: '',

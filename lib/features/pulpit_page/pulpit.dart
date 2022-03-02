@@ -1,14 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'dart:math';
 
-import 'package:lukasz_walencik_flutter_academy_task_zero/features/cubit/pulpit_cubit.dart';
+import 'package:lukasz_walencik_flutter_academy_task_zero/features/pulpit_page/cubit/pulpit_cubit.dart';
 
 class Pulpit extends StatelessWidget {
   const Pulpit({
     Key? key,
+    required this.user,
   }) : super(key: key);
-
+  final User user;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -19,7 +20,7 @@ class Pulpit extends StatelessWidget {
               appBar: AppBar(
                 centerTitle: true,
                 backgroundColor: Colors.purple,
-                title: Text('Flutter Academy Task Zero'),
+                title: const Text('Flutter Academy Task Zero'),
               ),
               backgroundColor: Colors.grey[400],
               body: Padding(
@@ -70,14 +71,11 @@ class Pulpit extends StatelessWidget {
                       decoration: BoxDecoration(
                         border: Border.all(
                             width: state.borderWidth, color: state.borderColor),
-                        image: DecorationImage(
+                        image: const DecorationImage(
                           image: AssetImage("images/Foto.jpg"),
                           fit: BoxFit.fill,
                         ),
                       ),
-                      // child:
-                      //     Image(image: AssetImage('images/Foto.jpg'), fit: BoxFit.fill),
-                      // color: Colors.teal[300],
                     ),
                     Container(
                       decoration: BoxDecoration(
@@ -115,7 +113,7 @@ class Pulpit extends StatelessWidget {
                       decoration: BoxDecoration(
                         border: Border.all(
                             width: state.borderWidth, color: state.borderColor),
-                        image: DecorationImage(
+                        image: const DecorationImage(
                           image: AssetImage("images/snowboard.jpg"),
                           fit: BoxFit.fill,
                         ),
