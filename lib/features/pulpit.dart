@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 class Pulpit extends StatefulWidget {
   const Pulpit({
@@ -10,28 +11,16 @@ class Pulpit extends StatefulWidget {
 }
 
 class _PulpitState extends State<Pulpit> {
-  List<Color> colors = [Colors.blue, Colors.black, Colors.green];
+  // List<Color> colors = [Colors.blue, Colors.black, Colors.green];
 
   var defaultColor = Colors.amber;
-  final pressedColor1 = Colors.red;
-  final pressedColor2 = Colors.green;
-  final pressedColor3 = Colors.blue;
-  final pressedColor4 = Colors.pink;
-  final pressedColor5 = Colors.yellow;
 
   var borderWidth = 1.0;
-  final borderWidth1 = 3.0;
-  final borderWidth2 = 5.0;
-  final borderWidth3 = 7.0;
-  final borderWidth4 = 9.0;
-  final borderWidth5 = 9.0;
+  // var tapBorder = Random().nextDouble() * 5;
+
+  // final numbers = <double>[2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0];
 
   var borderColor = Colors.black;
-  final borderColor1 = Colors.green;
-  final borderColor2 = Colors.blue;
-  final borderColor3 = Colors.purple;
-  final borderColor4 = Colors.amber;
-  final borderColor5 = Colors.white;
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +39,11 @@ class _PulpitState extends State<Pulpit> {
               InkWell(
                 onTap: () {
                   setState(() {
-                    defaultColor = pressedColor1;
-                    borderWidth = borderWidth4;
-                    borderColor = borderColor3;
+                    defaultColor = Colors
+                        .primaries[Random().nextInt(Colors.primaries.length)];
+                    borderWidth = Random().nextDouble() * 5;
+                    borderColor = Colors
+                        .primaries[Random().nextInt(Colors.primaries.length)];
                   });
                 },
                 child: Container(
@@ -80,9 +71,11 @@ class _PulpitState extends State<Pulpit> {
                 child: InkWell(
                     onTap: () {
                       setState(() {
-                        defaultColor = pressedColor2;
-                        borderWidth = borderWidth1;
-                        borderColor = borderColor4;
+                        defaultColor = defaultColor;
+                        borderWidth = Random().nextDouble() * 5;
+                        ;
+                        borderColor = Colors.primaries[
+                            Random().nextInt(Colors.primaries.length)];
                       });
                     },
                     child: const Text(
