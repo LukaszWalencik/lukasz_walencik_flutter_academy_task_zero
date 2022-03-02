@@ -4,26 +4,10 @@ import 'dart:math';
 
 import 'package:lukasz_walencik_flutter_academy_task_zero/features/cubit/pulpit_cubit.dart';
 
-class Pulpit extends StatefulWidget {
+class Pulpit extends StatelessWidget {
   const Pulpit({
     Key? key,
   }) : super(key: key);
-
-  @override
-  State<Pulpit> createState() => _PulpitState();
-}
-
-class _PulpitState extends State<Pulpit> {
-  // List<Color> colors = [Colors.blue, Colors.black, Colors.green];
-
-  var defaultColor = Colors.amber;
-
-  var borderWidth = 1.0;
-  // var tapBorder = Random().nextDouble() * 5;
-
-  // final numbers = <double>[2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0];
-
-  var borderColor = Colors.black;
 
   @override
   Widget build(BuildContext context) {
@@ -43,22 +27,16 @@ class _PulpitState extends State<Pulpit> {
                 child: GridView.count(
                   crossAxisCount: 3,
                   children: [
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          defaultColor = Colors.primaries[
-                              Random().nextInt(Colors.primaries.length)];
-                          borderWidth = Random().nextDouble() * 5;
-                          borderColor = Colors.primaries[
-                              Random().nextInt(Colors.primaries.length)];
-                        });
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: defaultColor,
-                          border: Border.all(
-                              width: borderWidth, color: borderColor),
-                        ),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: state.inkColor,
+                        border: Border.all(
+                            width: state.borderWidth, color: state.borderColor),
+                      ),
+                      child: InkWell(
+                        onTap: () {
+                          context.read<PulpitCubit>().mixColors();
+                        },
                         child: const Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Center(
@@ -72,28 +50,26 @@ class _PulpitState extends State<Pulpit> {
                     ),
                     Container(
                       decoration: BoxDecoration(
-                        color: defaultColor,
-                        border:
-                            Border.all(width: borderWidth, color: borderColor),
+                        color: state.inkColor,
+                        border: Border.all(
+                            width: state.borderWidth, color: state.borderColor),
                       ),
                       padding: const EdgeInsets.all(8),
                       child: InkWell(
                           onTap: () {
-                            setState(() {
-                              defaultColor = defaultColor;
-                              borderWidth = Random().nextDouble() * 5;
-                              ;
-                              borderColor = Colors.primaries[
-                                  Random().nextInt(Colors.primaries.length)];
-                            });
+                            context.read<PulpitCubit>().mixColors2();
                           },
                           child: const Text(
                               'Rozwinięcia swoich umiejętności i możliwości przyszłego zatrudnienia.')),
                     ),
                     Container(
+                      child: InkWell(onTap: () {
+                        context.read<PulpitCubit>().mixColors();
+                      }),
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        border: Border.all(width: 2, color: Colors.black),
+                        border: Border.all(
+                            width: state.borderWidth, color: state.borderColor),
                         image: DecorationImage(
                           image: AssetImage("images/Foto.jpg"),
                           fit: BoxFit.fill,
@@ -104,19 +80,41 @@ class _PulpitState extends State<Pulpit> {
                       // color: Colors.teal[300],
                     ),
                     Container(
-                      padding: const EdgeInsets.all(8),
-                      child: const Text('Who scream'),
-                      color: Colors.teal[400],
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      child: const Text('Revolution is coming...'),
-                      color: Colors.teal[500],
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        border: Border.all(width: 2, color: Colors.black),
+                        color: state.inkColor,
+                        border: Border.all(
+                            width: state.borderWidth, color: state.borderColor),
+                      ),
+                      padding: const EdgeInsets.all(8),
+                      child: InkWell(
+                        onTap: () {
+                          context.read<PulpitCubit>().mixColors2();
+                        },
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: state.inkColor,
+                        border: Border.all(
+                            width: state.borderWidth, color: state.borderColor),
+                      ),
+                      padding: const EdgeInsets.all(8),
+                      child: InkWell(
+                        onTap: () {
+                          context.read<PulpitCubit>().mixColors2();
+                        },
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      child: InkWell(
+                        onTap: () {
+                          context.read<PulpitCubit>().mixColors2();
+                        },
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            width: state.borderWidth, color: state.borderColor),
                         image: DecorationImage(
                           image: AssetImage("images/snowboard.jpg"),
                           fit: BoxFit.fill,
@@ -124,19 +122,43 @@ class _PulpitState extends State<Pulpit> {
                       ),
                     ),
                     Container(
+                      decoration: BoxDecoration(
+                        color: state.inkColor,
+                        border: Border.all(
+                            width: state.borderWidth, color: state.borderColor),
+                      ),
                       padding: const EdgeInsets.all(8),
-                      child: const Text('Who scream'),
-                      color: Colors.teal[400],
+                      child: InkWell(
+                        onTap: () {
+                          context.read<PulpitCubit>().mixColors2();
+                        },
+                      ),
                     ),
                     Container(
+                      decoration: BoxDecoration(
+                        color: state.inkColor,
+                        border: Border.all(
+                            width: state.borderWidth, color: state.borderColor),
+                      ),
                       padding: const EdgeInsets.all(8),
-                      child: const Text('Revolution is coming...'),
-                      color: Colors.teal[500],
+                      child: InkWell(
+                        onTap: () {
+                          context.read<PulpitCubit>().mixColors2();
+                        },
+                      ),
                     ),
                     Container(
+                      decoration: BoxDecoration(
+                        color: state.inkColor,
+                        border: Border.all(
+                            width: state.borderWidth, color: state.borderColor),
+                      ),
                       padding: const EdgeInsets.all(8),
-                      child: const Text('Revolution, they...'),
-                      color: Colors.teal[600],
+                      child: InkWell(
+                        onTap: () {
+                          context.read<PulpitCubit>().mixColors2();
+                        },
+                      ),
                     ),
                   ],
                   // children: [],

@@ -23,4 +23,14 @@ class PulpitCubit extends Cubit<PulpitState> {
         borderColor:
             Colors.primaries[Random().nextInt(Colors.primaries.length)]));
   }
+
+  Future<void> mixColors2() async {
+    emit(PulpitState(
+        inkColor: Colors.primaries[Random().nextInt(Colors.primaries.length)],
+        isLoading: false,
+        errorMessage: '',
+        borderWidth: Random().nextDouble() * 5,
+        borderColor:
+            Colors.primaries[Random().nextInt(Colors.primaries.length)]));
+  }
 }
