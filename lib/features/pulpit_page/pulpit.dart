@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:math';
 
-import 'package:lukasz_walencik_flutter_academy_task_zero/features/cubit/pulpit_cubit.dart';
+import 'package:lukasz_walencik_flutter_academy_task_zero/features/pulpit_page/cubit/pulpit_cubit.dart';
 
 class Pulpit extends StatelessWidget {
   const Pulpit({
