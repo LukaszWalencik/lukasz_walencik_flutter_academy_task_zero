@@ -102,30 +102,4 @@ class PulpitCubit extends Cubit<PulpitState> {
     _streamSubscription?.cancel();
     return super.close();
   }
-
-  // emit(
-  //   PulpitState(
-  //     inkColor: Colors.primaries[Random().nextInt(Colors.primaries.length)],
-  //     isLoading: false,
-  //     errorMessage: '',
-  //     borderWidth: Random().nextDouble() * 5,
-  //     borderColor:
-  //         Colors.primaries[Random().nextInt(Colors.primaries.length)],
-  //     documents: [],
-  //   ),
-  // );
-
-  // Future<void> mixColors2() async {
-  //   emit(
-  //     PulpitState(
-  //       inkColor: Colors.primaries[Random().nextInt(Colors.primaries.length)],
-  //       isLoading: false,
-  //       errorMessage: '',
-  //       borderWidth: Random().nextDouble() * 5,
-  //       borderColor:
-  //           Colors.primaries[Random().nextInt(Colors.primaries.length)],
-  //       documents: [],
-  //     ),
-  //   );
-  // }
 }
