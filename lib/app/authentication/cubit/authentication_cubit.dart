@@ -8,14 +8,14 @@ part 'authentication_state.dart';
 
 class AuthenticationCubit extends Cubit<AuthenticationState> {
   AuthenticationCubit()
-      : super(AuthenticationState(
+      : super(const AuthenticationState(
             user: null, isLoading: false, errorMessage: ''));
 
   StreamSubscription? _streamSubscription;
 
   Future<void> authentication() async {
     emit(
-      AuthenticationState(user: null, isLoading: true, errorMessage: ''),
+      const AuthenticationState(user: null, isLoading: true, errorMessage: ''),
     );
 
     _streamSubscription = FirebaseAuth.instance.authStateChanges().listen(
