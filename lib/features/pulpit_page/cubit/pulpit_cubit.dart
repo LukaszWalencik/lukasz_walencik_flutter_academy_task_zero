@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
@@ -12,25 +15,83 @@ class PulpitCubit extends Cubit<PulpitState> {
             isLoading: false,
             errorMessage: '',
             borderWidth: 1.0,
-            borderColor: Colors.black));
+            borderColor: Colors.black,
+            documents: []));
+
+  StreamSubscription? _streamSubscription;
+
+  Future<void> start() async {
+    emit(
+      PulpitState(
+        inkColor: Colors.amber,
+        isLoading: true,
+        errorMessage: '',
+        borderWidth: 1.0,
+        borderColor: Colors.black,
+        documents: [],
+      ),
+    );
+
+    _streamSubscription =
+        FirebaseFirestore.instance.collection('data').snapshots().listen(
+      (data) {
+        emit(
+          PulpitState(
+              inkColor: Colors.amber,
+              isLoading: false,
+              errorMessage: '',
+              borderWidth: 1.0,
+              borderColor: Colors.black,
+              documents: data.docs),
+        );
+      },
+    )..onError(
+            (error) {
+              emit(
+                PulpitState(
+                  inkColor: Colors.amber,
+                  isLoading: false,
+                  errorMessage: error.toString(),
+                  borderWidth: 1.0,
+                  borderColor: Colors.black,
+                  documents: [],
+                ),
+              );
+            },
+          );
+  }
+
+  @override
+  Future<void> close() {
+    _streamSubscription?.cancel();
+    return super.close();
+  }
 
   Future<void> mixColors() async {
-    emit(PulpitState(
+    emit(
+      PulpitState(
         inkColor: Colors.primaries[Random().nextInt(Colors.primaries.length)],
         isLoading: false,
         errorMessage: '',
         borderWidth: Random().nextDouble() * 5,
         borderColor:
-            Colors.primaries[Random().nextInt(Colors.primaries.length)]));
+            Colors.primaries[Random().nextInt(Colors.primaries.length)],
+        documents: [],
+      ),
+    );
   }
 
-  Future<void> mixColors2() async {
-    emit(PulpitState(
-        inkColor: Colors.primaries[Random().nextInt(Colors.primaries.length)],
-        isLoading: false,
-        errorMessage: '',
-        borderWidth: Random().nextDouble() * 5,
-        borderColor:
-            Colors.primaries[Random().nextInt(Colors.primaries.length)]));
-  }
+  // Future<void> mixColors2() async {
+  //   emit(
+  //     PulpitState(
+  //       inkColor: Colors.primaries[Random().nextInt(Colors.primaries.length)],
+  //       isLoading: false,
+  //       errorMessage: '',
+  //       borderWidth: Random().nextDouble() * 5,
+  //       borderColor:
+  //           Colors.primaries[Random().nextInt(Colors.primaries.length)],
+  //       documents: [],
+  //     ),
+  //   );
+  // }
 }
