@@ -1,12 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lukasz_walencik_flutter_academy_task_zero/app/core/enums.dart';
-import 'package:meta/meta.dart';
 
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
-  LoginCubit() : super(LoginState());
+  LoginCubit() : super(const LoginState());
 
   void createAccount(bool creatingAccount) {
     switch (creatingAccount) {
