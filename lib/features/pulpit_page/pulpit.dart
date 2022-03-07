@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import 'package:lukasz_walencik_flutter_academy_task_zero/features/pulpit_page/cubit/pulpit_cubit.dart';
+import 'package:lukasz_walencik_flutter_academy_task_zero/repositories/item_repository.dart';
 
 class Pulpit extends StatelessWidget {
   const Pulpit({
@@ -12,7 +13,7 @@ class Pulpit extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => PulpitCubit()..start(),
+      create: (context) => PulpitCubit(ItemRepository())..start(),
       child: BlocBuilder<PulpitCubit, PulpitState>(
         builder: (context, state) {
           if (state.errorMessage.isNotEmpty) {
@@ -61,7 +62,7 @@ class Pulpit extends StatelessWidget {
                             padding: const EdgeInsets.all(8.0),
                             child: Center(
                                 child: Text(
-                              document['name'],
+                              document.name,
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 20),
                             )),
@@ -85,7 +86,7 @@ class Pulpit extends StatelessWidget {
                             context.read<PulpitCubit>().mixColors();
                           },
                           child: Text(
-                            document['info'],
+                            document.info,
                           ),
                         ),
                       ),
@@ -94,20 +95,19 @@ class Pulpit extends StatelessWidget {
                       crossAxisCellCount: 1,
                       mainAxisCellCount: 1,
                       child: Container(
-                        padding: const EdgeInsets.all(8),
                         child: InkWell(
                           onTap: () {
                             context.read<PulpitCubit>().mixColors();
                           },
+                          child: Image.network(
+                            document.snowboard,
+                            fit: BoxFit.fill,
+                          ),
                         ),
                         decoration: BoxDecoration(
                           border: Border.all(
                               width: state.borderWidth,
                               color: state.borderColor),
-                          image: const DecorationImage(
-                            image: AssetImage("images/snowboard.jpg"),
-                            fit: BoxFit.fill,
-                          ),
                         ),
                       ),
                     ),
@@ -115,6 +115,17 @@ class Pulpit extends StatelessWidget {
                       crossAxisCellCount: 1,
                       mainAxisCellCount: 1,
                       child: Container(
+                        child: InkWell(
+                            onTap: () {
+                              context.read<PulpitCubit>().mixColors();
+                            },
+                            child: ElevatedButton(
+                                onPressed: (() {
+                                  context.read<PulpitCubit>().start();
+                                }),
+                                child: const Text('Reset'),
+                                style: ElevatedButton.styleFrom(
+                                    primary: Colors.purple))),
                         decoration: BoxDecoration(
                           color: state.inkColor,
                           border: Border.all(
@@ -122,11 +133,7 @@ class Pulpit extends StatelessWidget {
                               color: state.borderColor),
                         ),
                         padding: const EdgeInsets.all(8),
-                        child: InkWell(
-                          onTap: () {
-                            context.read<PulpitCubit>().mixColors();
-                          },
-                        ),
+
                         // child: ElevatedButton(
                         //   onPressed: () {},
                         //   child: const Text('Naciśnij by podmienić'),
@@ -161,7 +168,7 @@ class Pulpit extends StatelessWidget {
                             context.read<PulpitCubit>().mixColors();
                           },
                           child: Image.network(
-                            'https://ih1.redbubble.net/image.1060739513.9977/pp,840x830-pad,1000x1000,f8f8f8.u1.jpg',
+                            document.flutter,
                             fit: BoxFit.fill,
                           ),
                         ),

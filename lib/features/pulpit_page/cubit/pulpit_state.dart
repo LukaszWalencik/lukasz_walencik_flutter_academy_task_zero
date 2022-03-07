@@ -15,5 +15,5 @@ class PulpitState {
   final String errorMessage;
   final double borderWidth;
   final Color borderColor;
-  final List<QueryDocumentSnapshot<Map<String, dynamic>>> documents;
+  final List<ItemModel> documents;
 }

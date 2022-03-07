@@ -1,14 +1,16 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
+
+import 'package:lukasz_walencik_flutter_academy_task_zero/models/item_model.dart';
+import 'package:lukasz_walencik_flutter_academy_task_zero/repositories/item_repository.dart';
 part 'pulpit_state.dart';
 
 class PulpitCubit extends Cubit<PulpitState> {
-  PulpitCubit()
+  PulpitCubit(this._itemRepository)
       : super(const PulpitState(
             inkColor: Colors.amber,
             isLoading: false,
@@ -17,6 +19,7 @@ class PulpitCubit extends Cubit<PulpitState> {
             borderColor: Colors.black,
             documents: []));
 
+  final ItemRepository _itemRepository;
   StreamSubscription? _streamSubscription;
 
   Future<void> start() async {
@@ -31,8 +34,7 @@ class PulpitCubit extends Cubit<PulpitState> {
       ),
     );
 
-    _streamSubscription =
-        FirebaseFirestore.instance.collection('data').snapshots().listen(
+    _streamSubscription = _itemRepository.getItemsStream().listen(
       (data) {
         emit(
           PulpitState(
@@ -41,23 +43,23 @@ class PulpitCubit extends Cubit<PulpitState> {
               errorMessage: '',
               borderWidth: 1.0,
               borderColor: Colors.black,
-              documents: data.docs),
+              documents: data),
         );
       },
     )..onError(
-            (error) {
-              emit(
-                PulpitState(
-                  inkColor: Colors.amber,
-                  isLoading: false,
-                  errorMessage: error.toString(),
-                  borderWidth: 1.0,
-                  borderColor: Colors.black,
-                  documents: const [],
-                ),
-              );
-            },
+        (error) {
+          emit(
+            PulpitState(
+              inkColor: Colors.amber,
+              isLoading: false,
+              errorMessage: error.toString(),
+              borderWidth: 1.0,
+              borderColor: Colors.black,
+              documents: const [],
+            ),
           );
+        },
+      );
   }
 
   Future<void> signOut() async {
@@ -65,8 +67,7 @@ class PulpitCubit extends Cubit<PulpitState> {
   }
 
   Future<void> mixColors() async {
-    _streamSubscription =
-        FirebaseFirestore.instance.collection('data').snapshots().listen(
+    _streamSubscription = _itemRepository.getItemsStream().listen(
       (data) {
         emit(
           PulpitState(
@@ -77,23 +78,23 @@ class PulpitCubit extends Cubit<PulpitState> {
               borderWidth: Random().nextDouble() * 7,
               borderColor:
                   Colors.primaries[Random().nextInt(Colors.primaries.length)],
-              documents: data.docs),
+              documents: data),
         );
       },
     )..onError(
-            (error) {
-              emit(
-                PulpitState(
-                  inkColor: Colors.amber,
-                  isLoading: false,
-                  errorMessage: error.toString(),
-                  borderWidth: 1.0,
-                  borderColor: Colors.black,
-                  documents: const [],
-                ),
-              );
-            },
+        (error) {
+          emit(
+            PulpitState(
+              inkColor: Colors.amber,
+              isLoading: false,
+              errorMessage: error.toString(),
+              borderWidth: 1.0,
+              borderColor: Colors.black,
+              documents: const [],
+            ),
           );
+        },
+      );
   }
 
   @override

@@ -23,16 +23,26 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   Future<void> signUp(String email, String password) async {
-    await FirebaseAuth.instance.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      emit(const LoginState(status: Status.loading));
+    } catch (error) {
+      emit(LoginState(status: Status.error, errorMessage: error.toString()));
+    }
   }
 
   Future<void> singIn(String email, String password) async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      emit(const LoginState(status: Status.loading));
+    } catch (error) {
+      emit(LoginState(status: Status.error, errorMessage: error.toString()));
+    }
   }
 }
