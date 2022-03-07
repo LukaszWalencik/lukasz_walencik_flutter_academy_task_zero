@@ -1,12 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   LoginPage({Key? key}) : super(key: key);
 
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
 
+class _LoginPageState extends State<LoginPage> {
+  final emailController = TextEditingController();
+
+  final passwordController = TextEditingController();
+  var errorMessage = '';
+  var isCreatingAccount = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,7 +21,7 @@ class LoginPage extends StatelessWidget {
         centerTitle: true,
         backgroundColor: Colors.purple,
         title: const Text(
-          'My Books to Read',
+          'Flutter Academy Task Zero',
           style: TextStyle(
             fontSize: 25,
             fontWeight: FontWeight.w600,
@@ -31,7 +38,9 @@ class LoginPage extends StatelessWidget {
               children: [
                 Flexible(
                   child: Text(
-                    'Zaloguj się',
+                    isCreatingAccount == true
+                        ? 'Zaloguj się'
+                        : 'Zarejestruj się',
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 15,
@@ -78,20 +87,9 @@ class LoginPage extends StatelessWidget {
                     height: 20,
                   ),
                 ),
-                Flexible(
-                  child: ElevatedButton(
-                      onPressed: () async {
-                        try {
-                          await FirebaseAuth.instance
-                              .signInWithEmailAndPassword(
-                                  email: emailController.text,
-                                  password: passwordController.text);
-                        } catch (error) {
-                          print(error);
-                        }
-                      },
-                      child: Text('Zaloguj się'),
-                      style: ElevatedButton.styleFrom(primary: Colors.purple)),
+                Text(
+                  errorMessage,
+                  style: TextStyle(color: Colors.red),
                 ),
                 const Flexible(
                   child: SizedBox(
@@ -99,11 +97,77 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 Flexible(
-                  child: TextButton(
-                    onPressed: () {},
-                    child: Text(''),
+                  child: ElevatedButton(
+                      onPressed: () async {
+                        if (isCreatingAccount == true)
+                          try {
+                            await FirebaseAuth.instance
+                                .signInWithEmailAndPassword(
+                                    email: emailController.text,
+                                    password: passwordController.text);
+                          } catch (error) {
+                            setState(() {
+                              errorMessage = error.toString();
+                            });
+                            ;
+                          }
+                        if (isCreatingAccount == false)
+                          try {
+                            await FirebaseAuth.instance
+                                .createUserWithEmailAndPassword(
+                                    email: emailController.text,
+                                    password: passwordController.text);
+                          } catch (error) {
+                            setState(() {
+                              errorMessage = error.toString();
+                            });
+                            ;
+                          }
+                      },
+                      child: Text(
+                        isCreatingAccount == true
+                            ? 'Zaloguj się'
+                            : 'Zarejestruj się',
+                      ),
+                      style: ElevatedButton.styleFrom(primary: Colors.purple)),
+                ),
+                const Flexible(
+                  child: SizedBox(
+                    height: 20,
                   ),
-                )
+                ),
+                if (isCreatingAccount == true) ...[
+                  Flexible(
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        primary: Colors.purple,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          isCreatingAccount = false;
+                        });
+                      },
+                      child: Text(
+                        'Stwórz konto',
+                      ),
+                    ),
+                  )
+                ] else
+                  Flexible(
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        primary: Colors.purple,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          isCreatingAccount = true;
+                        });
+                      },
+                      child: Text(
+                        'Masz juz konto?',
+                      ),
+                    ),
+                  )
               ],
             ),
           ),

@@ -12,6 +12,6 @@ class PulpitState {
   final Color inkColor;
   final bool isLoading;
   final String errorMessage;
-  final borderWidth;
-  final borderColor;
+  final double borderWidth;
+  final Color borderColor;
 }
