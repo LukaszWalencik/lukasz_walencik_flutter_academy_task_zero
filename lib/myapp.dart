@@ -11,18 +11,27 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: BlocProvider(
-        create: (context) => AuthenticationCubit(),
-        child: BlocBuilder<AuthenticationCubit, AuthenticationState>(
-          builder: (context, state) {
-            final user = state.user;
+      home: RootPage(),
+    );
+  }
+}
 
-            if (user == null) {
-              return LoginPage();
-            }
-            return const Pulpit();
-          },
-        ),
+class RootPage extends StatelessWidget {
+  const RootPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => AuthenticationCubit()..authentication(),
+      child: BlocBuilder<AuthenticationCubit, AuthenticationState>(
+        builder: (context, state) {
+          final user = state.user;
+
+          if (user == null) {
+            return LoginPage();
+          }
+          return const Pulpit();
+        },
       ),
     );
   }

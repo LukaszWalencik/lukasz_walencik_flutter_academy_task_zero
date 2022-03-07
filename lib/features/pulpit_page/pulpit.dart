@@ -14,33 +14,33 @@ class Pulpit extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-              onPressed: () async {
-                await FirebaseAuth.instance.signOut();
-              },
-              icon: const Icon(Icons.person))
-        ],
-        centerTitle: true,
-        backgroundColor: Colors.purple,
-        title: const Text('Flutter Academy Task Zero'),
-      ),
-      backgroundColor: Colors.grey[400],
-      body: Center(
-        child: BlocProvider(
-          create: (context) => PulpitCubit()..start(),
-          child: BlocBuilder<PulpitCubit, PulpitState>(
-            builder: (context, state) {
-              if (state.errorMessage.isNotEmpty) {
-                return Text(state.errorMessage);
-              }
-              if (state.isLoading == true) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              final documents = state.documents;
-              return StaggeredGrid.count(
+    return BlocProvider(
+      create: (context) => PulpitCubit()..start(),
+      child: BlocBuilder<PulpitCubit, PulpitState>(
+        builder: (context, state) {
+          if (state.errorMessage.isNotEmpty) {
+            return Text(state.errorMessage);
+          }
+          if (state.isLoading == true) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          final documents = state.documents;
+          return Scaffold(
+            appBar: AppBar(
+              actions: [
+                IconButton(
+                    onPressed: () {
+                      context.read<PulpitCubit>().signOut();
+                    },
+                    icon: const Icon(Icons.person))
+              ],
+              centerTitle: true,
+              backgroundColor: Colors.purple,
+              title: const Text('Flutter Academy Task Zero'),
+            ),
+            backgroundColor: Colors.grey[400],
+            body: Center(
+              child: StaggeredGrid.count(
                 crossAxisCount: 3,
                 mainAxisSpacing: 1,
                 crossAxisSpacing: 1,
@@ -178,10 +178,10 @@ class Pulpit extends StatelessWidget {
                     ),
                   ],
                 ],
-              );
-            },
-          ),
-        ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
