@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lukasz_walencik_flutter_academy_task_zero/cubit/authentication_cubit.dart';
 import 'package:lukasz_walencik_flutter_academy_task_zero/features/login_page/login_page.dart';
 import 'package:lukasz_walencik_flutter_academy_task_zero/features/pulpit_page/pulpit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,15 +11,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: StreamBuilder<User?>(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) {
-            final user = snapshot.data;
+      home: BlocProvider(
+        create: (context) => AuthenticationCubit(),
+        child: BlocBuilder<AuthenticationCubit, AuthenticationState>(
+          builder: (context, state) {
+            final user = state.user;
+
             if (user == null) {
               return LoginPage();
             }
-            return Pulpit();
-          }),
+            return const Pulpit();
+          },
+        ),
+      ),
     );
   }
 }
