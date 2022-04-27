@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lukasz_walencik_flutter_academy_task_zero/features/login_page/cubit/login_cubit.dart';
+import 'package:lukasz_walencik_flutter_academy_task_zero/features/login_page/widgets/stworz_posiadasz_konto.dart';
+import 'package:lukasz_walencik_flutter_academy_task_zero/features/login_page/widgets/zaloguj_zarejstruj.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -11,10 +13,11 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
-
   final passwordController = TextEditingController();
+
   var errorMessage = '';
   var isCreatingAccount = false;
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -41,52 +44,19 @@ class _LoginPageState extends State<LoginPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Flexible(
-                        child: Text(
-                          state.creatingAccount == false
-                              ? 'Zaloguj się'
-                              : 'Zarejestruj się',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                          ),
-                        ),
-                      ),
+                      ZalogujZarejestruj(state),
                       const Flexible(
                         child: SizedBox(
                           height: 50,
                         ),
                       ),
-                      Flexible(
-                        child: TextField(
-                          controller: emailController,
-                          decoration: const InputDecoration(
-                            prefixIcon: Icon(
-                              Icons.person,
-                              color: Colors.purple,
-                            ),
-                            hintText: 'Email',
-                          ),
-                        ),
-                      ),
+                      EmailTextField(),
                       const Flexible(
                         child: SizedBox(
                           height: 15,
                         ),
                       ),
-                      Flexible(
-                        child: TextField(
-                          obscureText: true,
-                          controller: passwordController,
-                          decoration: const InputDecoration(
-                            prefixIcon: Icon(
-                              Icons.vpn_key,
-                              color: Colors.purple,
-                            ),
-                            hintText: 'Password',
-                          ),
-                        ),
-                      ),
+                      HasloTextField(),
                       const Flexible(
                         child: SizedBox(
                           height: 20,
@@ -101,47 +71,13 @@ class _LoginPageState extends State<LoginPage> {
                           height: 20,
                         ),
                       ),
-                      Flexible(
-                        child: ElevatedButton(
-                            onPressed: state.creatingAccount
-                                ? () {
-                                    context.read<LoginCubit>().signUp(
-                                        emailController.text,
-                                        passwordController.text);
-                                  }
-                                : () {
-                                    context.read<LoginCubit>().singIn(
-                                        emailController.text,
-                                        passwordController.text);
-                                  },
-                            child: Text(
-                              state.creatingAccount == false
-                                  ? 'Zaloguj'
-                                  : 'Rejestracja',
-                            ),
-                            style: ElevatedButton.styleFrom(
-                                primary: Colors.purple)),
-                      ),
+                      ZalogujRejestracjaButton(state, context),
                       const Flexible(
                         child: SizedBox(
                           height: 20,
                         ),
                       ),
-                      Flexible(
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                            primary: Colors.purple,
-                          ),
-                          onPressed: () {
-                            context
-                                .read<LoginCubit>()
-                                .createAccount(state.creatingAccount);
-                          },
-                          child: Text(state.creatingAccount == false
-                              ? 'Stwórz konto'
-                              : 'Posiadasz konto?'),
-                        ),
-                      )
+                      StworzPosiadaszKonto(context, state)
                     ],
                   ),
                 ),
@@ -150,6 +86,58 @@ class _LoginPageState extends State<LoginPage> {
           );
         },
       ),
+    );
+  }
+
+  Flexible EmailTextField() {
+    return Flexible(
+      child: TextField(
+        controller: emailController,
+        decoration: const InputDecoration(
+          prefixIcon: Icon(
+            Icons.person,
+            color: Colors.purple,
+          ),
+          hintText: 'Email',
+        ),
+      ),
+    );
+  }
+
+  Flexible HasloTextField() {
+    return Flexible(
+      child: TextField(
+        obscureText: true,
+        controller: passwordController,
+        decoration: const InputDecoration(
+          prefixIcon: Icon(
+            Icons.vpn_key,
+            color: Colors.purple,
+          ),
+          hintText: 'Password',
+        ),
+      ),
+    );
+  }
+
+  Flexible ZalogujRejestracjaButton(LoginState state, BuildContext context) {
+    return Flexible(
+      child: ElevatedButton(
+          onPressed: state.creatingAccount
+              ? () {
+                  context
+                      .read<LoginCubit>()
+                      .signUp(emailController.text, passwordController.text);
+                }
+              : () {
+                  context
+                      .read<LoginCubit>()
+                      .singIn(emailController.text, passwordController.text);
+                },
+          child: Text(
+            state.creatingAccount == false ? 'Zaloguj' : 'Rejestracja',
+          ),
+          style: ElevatedButton.styleFrom(primary: Colors.purple)),
     );
   }
 }
