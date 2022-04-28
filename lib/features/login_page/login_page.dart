@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lukasz_walencik_flutter_academy_task_zero/features/login_page/cubit/login_cubit.dart';
-import 'package:lukasz_walencik_flutter_academy_task_zero/features/login_page/widgets/stworz_posiadasz_konto.dart';
-import 'package:lukasz_walencik_flutter_academy_task_zero/features/login_page/widgets/zaloguj_zarejstruj.dart';
+import 'package:lukasz_walencik_flutter_academy_task_zero/features/login_page/widgets/new_old_acc.dart';
+import 'package:lukasz_walencik_flutter_academy_task_zero/features/login_page/widgets/sign_in_up_text.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -44,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      ZalogujZarejestruj(state),
+                      SignInUpText(state),
                       const Flexible(
                         child: SizedBox(
                           height: 50,
@@ -56,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
                           height: 15,
                         ),
                       ),
-                      HasloTextField(),
+                      PasswordTextField(),
                       const Flexible(
                         child: SizedBox(
                           height: 20,
@@ -71,13 +71,13 @@ class _LoginPageState extends State<LoginPage> {
                           height: 20,
                         ),
                       ),
-                      ZalogujRejestracjaButton(state, context),
+                      SignInUpButton(state, context),
                       const Flexible(
                         child: SizedBox(
                           height: 20,
                         ),
                       ),
-                      StworzPosiadaszKonto(context, state)
+                      NewOldAcc(context, state)
                     ],
                   ),
                 ),
@@ -104,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Flexible HasloTextField() {
+  Flexible PasswordTextField() {
     return Flexible(
       child: TextField(
         obscureText: true,
@@ -120,7 +120,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Flexible ZalogujRejestracjaButton(LoginState state, BuildContext context) {
+  Flexible SignInUpButton(LoginState state, BuildContext context) {
     return Flexible(
       child: ElevatedButton(
           onPressed: state.creatingAccount

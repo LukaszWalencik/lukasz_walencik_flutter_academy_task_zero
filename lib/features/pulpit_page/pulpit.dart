@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lukasz_walencik_flutter_academy_task_zero/features/pulpit_page/cubit/pulpit_cubit.dart';
-import 'package:lukasz_walencik_flutter_academy_task_zero/features/pulpit_page/widgets/kratka.dart';
+import 'package:lukasz_walencik_flutter_academy_task_zero/features/pulpit_page/widgets/whole_grid.dart';
 import 'package:lukasz_walencik_flutter_academy_task_zero/repositories/item_repository.dart';
 
 class Pulpit extends StatelessWidget {
@@ -37,7 +37,7 @@ class Pulpit extends StatelessWidget {
             ),
             backgroundColor: Colors.grey[400],
             body: Center(
-              child: Kratka(documents, state, context),
+              child: WholeGrid(documents, state, context),
             ),
           );
         },

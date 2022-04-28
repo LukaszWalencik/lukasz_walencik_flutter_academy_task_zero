@@ -5,7 +5,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:lukasz_walencik_flutter_academy_task_zero/features/pulpit_page/cubit/pulpit_cubit.dart';
 import 'package:lukasz_walencik_flutter_academy_task_zero/models/item_model.dart';
 
-StaggeredGrid Kratka(
+StaggeredGrid WholeGrid(
     List<ItemModel> documents, PulpitState state, BuildContext context) {
   return StaggeredGrid.count(
     crossAxisCount: 3,
@@ -54,7 +54,7 @@ StaggeredGrid Kratka(
               },
               child: AutoSizeText(
                 document.info,
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
           ),
